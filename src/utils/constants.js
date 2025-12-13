@@ -1,0 +1,1 @@
+export const Base_URL = "https://port8000-workspaces-ws-hbhbf.eu20.applicationstudio.cloud.sap/"
