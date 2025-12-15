@@ -12,6 +12,7 @@ const Body = () => {
     const navigate = useNavigate();
     const fetchUser = async () => {
         try {
+            if (!userData) return;
             const user = await axios.get("/api/profile/view", {
                 withCredentials: true
             })
@@ -19,15 +20,14 @@ const Body = () => {
             dispatch(addUser(user.data));
         } catch (err) {
             if (err.status === 401) {
-                 navigate("/login");
+                navigate("/login");
             }
-            console.log("Error:" + err.response.data);
+            console.log("Error:" + err);
         }
     }
 
     useEffect(() => {
-        if (!userData)
-            fetchUser()
+        fetchUser()
     }, [])
 
     return (

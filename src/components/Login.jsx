@@ -8,6 +8,8 @@ const Login = () => {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [error, SetError] = useState({})
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -15,7 +17,6 @@ const Login = () => {
         setEmail(e.target.value)
     }
     const onChangePassword = (e) => {
-        console.log(e)
         setPassword(e.target.value)
     }
     const handleLogin = async () => {
@@ -23,13 +24,17 @@ const Login = () => {
             const resp = await axios.post("/api/login",
                 {
                     email, password
-                }
+                }, {
+                withCredentials: true
+            }
             )
+            console.log(resp);
             console.log(resp.data.data);
             dispatch(addUser(resp.data.data));
             return navigate("/feed")
-        }catch (e) {
-           console.log("Error : " + e);
+        } catch (err) {
+            SetError(err)
+            console.log(err);
         }
     }
     return (
@@ -41,12 +46,12 @@ const Login = () => {
                         <fieldset className="fieldset my-5">
                             <legend className="fieldset-legend">Email</legend>
                             <input type="text" className="input" placeholder="Email..." value={email} onChange={onChangeEmail} />
-                            {/* <p className="label">Required</p> */}
+                            {error?.response?.data?.field === "email" && <p className="label"> {error?.response?.data?.message}</p> || ""}
                         </fieldset>
                         <fieldset className="fieldset">
                             <legend className="fieldset-legend">Password</legend>
                             <input type="text" className="input" placeholder="Password..." value={password} onChange={onChangePassword} />
-                            {/* <p className="label">Required</p> */}
+                            {error?.response?.data?.field === "password" && <p className="label"> {error?.response?.data?.message}</p> || ""}
                         </fieldset>
                     </div>
                     <p>New User <a className="link link-primary">Sign Up Here !!!</a></p>
