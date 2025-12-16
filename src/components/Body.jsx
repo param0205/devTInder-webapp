@@ -12,7 +12,7 @@ const Body = () => {
     const navigate = useNavigate();
     const fetchUser = async () => {
         try {
-            if (!userData) return;
+            if (userData) return;
             const user = await axios.get("/api/profile/view", {
                 withCredentials: true
             })

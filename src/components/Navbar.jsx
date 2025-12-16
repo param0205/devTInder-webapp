@@ -29,7 +29,7 @@ const Navbar = () => {
                     <div className="flex">
                         <div className="p-2 mr-2"> Welcome , {user.firstName}</div>
                         <div className="dropdown dropdown-end">
-                            <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar mr-5">
+                            <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar avatar-online mr-5">
                                 <div className="w-10 rounded-full">
                                     <img
                                         alt="user-photo"
