@@ -8,7 +8,7 @@ const UserCard = () => {
     const feed = useSelector((store) => store.feed);
     const getFeed = async () => {
         try {
-            if (feed) return;
+            if (feed?.length) return;
             const UserFeed = await axios.get("/api/feed", { withCredentials: true })
             console.log(UserFeed);
             dispatch(addFeed(UserFeed.data.userFeed));
@@ -19,6 +19,18 @@ const UserCard = () => {
     useEffect(() => {
         getFeed()
     }, [])
+
+    if (!feed?.length) {
+        return (
+            <div className="flex justify-center my-10">
+                <div className="card card-sm bg-base-300 max-w-70 shadow">
+                    <div className="card-body">
+                        <p>Loading feed...</p>
+                    </div>īīīī
+                </div>
+            </div>
+        )
+    }
 
     return (
         <div className="flex justify-center my-10">
