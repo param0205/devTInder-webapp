@@ -8,10 +8,10 @@ const UserCard = () => {
     const feed = useSelector((store) => store.feed);
     const getFeed = async () => {
         try {
-            if (feed?.length) return;
+            if (feed !== null) return;
             const UserFeed = await axios.get("/api/feed", { withCredentials: true })
             console.log(UserFeed);
-            dispatch(addFeed(UserFeed.data.userFeed));
+            dispatch(addFeed(UserFeed.data.userFeed ?? []));
         } catch (err) {
             console.log(err)
         }
@@ -20,13 +20,13 @@ const UserCard = () => {
         getFeed()
     }, [])
 
-    if (!feed?.length) {
+    if (feed === null) {
         return (
             <div className="flex justify-center my-10">
                 <div className="card card-sm bg-base-300 max-w-70 shadow">
                     <div className="card-body">
                         <p>Loading feed...</p>
-                    </div>īīīī
+                    </div>
                 </div>
             </div>
         )
