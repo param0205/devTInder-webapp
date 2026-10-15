@@ -3,50 +3,43 @@ import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { addFeed } from "../utils/feedStore";
 
-const UserCard = () => {
-    const dispatch = useDispatch();
-    const feed = useSelector((store) => store.feed);
-    const getFeed = async () => {
-        try {
-            if (feed !== null) return;
-            const UserFeed = await axios.get("/api/feed", { withCredentials: true })
-            console.log(UserFeed);
-            dispatch(addFeed(UserFeed.data.userFeed ?? []));
-        } catch (err) {
-            console.log(err)
-        }
-    }
-    useEffect(() => {
-        getFeed()
-    }, [])
-
-    if (feed === null) {
-        return (
-            <div className="flex justify-center my-10">
-                <div className="card card-sm bg-base-300 max-w-70 shadow">
-                    <div className="card-body">
-                        <p>Loading feed...</p>
-                    </div>
-                </div>
-            </div>
-        )
-    }
-
+const UserCard = ({ user }) => {
     return (
-        <div className="flex justify-center my-10">
-            <div className="card card-sm bg-base-300 max-w-70 shadow">
-                <figure className="hover-gallery">
-                    <img src={feed[0].photoUrl} />
-                    {/* <img src="https://img.daisyui.com/images/stock/daisyui-hat-2.webp" />
-                    <img src="https://img.daisyui.com/images/stock/daisyui-hat-3.webp" />
-                    <img src="https://img.daisyui.com/images/stock/daisyui-hat-4.webp" /> */}
+        <div className="flex w-full justify-center mt-5">
+            <div className="card card-sm w-full max-w-80 bg-base-300 shadow">
+                <figure className="">
+                    <img src={user.photoUrl} />
                 </figure>
                 <div className="card-body">
-                    <h2 className="card-title flex justify-between">
-                        {feed[0].firstName}
-                        <span className="font-normal">$25</span>
+                    <h2 className="card-title flex justify-between text-lg">
+                        {user.firstName + "  " + user.lastName}
+                        <span className="font-normal">{user.age}, {user.gender}</span>
                     </h2>
-                    <p>{feed[0].about}</p>
+                    <div className="mt-2">
+                        <h3 className="font-semibold text-sm">Bio:</h3>
+                        <p>{user.about}</p>
+                    </div>
+                    {!user.editprofile && (<div className="card-actions grid grid-cols-2 gap-3 pt-3">
+                        <button className="btn btn-outline btn-secondary text-base-content" type="button">
+                            Ignore
+                        </button>
+                        <button className="btn btn-primary" type="button">
+                            Interested
+                        </button>
+                    </div>)}
+                    {user.skills && (
+                        <div className="mt-2">
+                            <h2 className="font-semibold text-sm">Skills:</h2>
+                            <div className="flex flex-wrap gap-2 p-0">
+                                {user.skills.map((skill, index) => (
+                                    <button className="skill-chip" key={index} type="button">
+                                        {skill}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    )
+                    }
                 </div>
             </div>
         </div>

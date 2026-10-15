@@ -3,13 +3,14 @@ import Footer from './Footer'
 import { Outlet, useNavigate } from "react-router"
 import axios from "axios"
 import { useDispatch, useSelector } from "react-redux"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { addUser } from "../utils/userSlice"
 const Body = () => {
 
     const userData = useSelector((store) => store.user);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const [checkingAuth, setCheckingAuth] = useState(!userData);
     const fetchUser = async () => {
         try {
             if (userData) return;
@@ -23,12 +24,18 @@ const Body = () => {
                 navigate("/login");
             }
             console.log("Error:" + err);
+        } finally {
+            setCheckingAuth(false);
         }
     }
 
     useEffect(() => {
         fetchUser()
     }, [])
+
+    if (checkingAuth) {
+        return null;
+    }
 
     return (
         <div>

@@ -1,6 +1,6 @@
 import axios from "axios"
 import { useDispatch, useSelector } from "react-redux"
-import { Link, Links, useNavigate } from "react-router"
+import { Link, useNavigate } from "react-router"
 import { removeUser } from "../utils/userSlice";
 
 const Navbar = () => {
@@ -11,7 +11,7 @@ const Navbar = () => {
 
     const handleLogout = async () => {
         try {
-            const resp = await axios.post("/api/log", {}, { withCredentials: true })
+            const resp = await axios.post("/api/logout", {}, { withCredentials: true })
             console.log(resp);
             dispatch(removeUser());
             navigate("/login");
@@ -22,7 +22,7 @@ const Navbar = () => {
     return (
         <div className="navbar bg-base-300 shadow-sm">
             <div className="flex-1">
-                <Link to="/" className="btn btn-ghost text-xl"> DevTinder</Link>
+                <Link to= "/" className="btn btn-ghost text-xl"> DevTinder</Link>
             </div>
             <div className="flex gap-1">
                 {user &&

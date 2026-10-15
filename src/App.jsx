@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from 'react-router'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router'
 import './App.css'
 import Body from './components/Body';
 import Login from './components/Login';
@@ -14,9 +14,10 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Body />}>
+              <Route index element={<Navigate to="/feed" replace />} />
+              <Route path="/feed" element={<Feed />} />
               <Route path="/login" element={<Login />} />
               <Route path="/Profile" element={<Profile />} />
-              <Route path="/feed" element={<Feed/>} />
             </Route>
           </Routes>
         </BrowserRouter>
